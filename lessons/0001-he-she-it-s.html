@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>练习 0001 · 一般现在时（第三人称单数）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <script src="../config.js"></script>
+  <style>
+    :root {
+      --paper: #f7f4ee;
+      --sheet: #fffcf7;
+      --ink: #1a1916;
+      --muted: #5c5852;
+      --line: #1a1916;
+      --hair: #c9c2b6;
+      --red: #b42318;
+      --ok: #3f6212;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--paper); color: var(--ink); }
+    body {
+      font-family: "Source Serif 4", "Noto Serif SC", "Songti SC", "SimSun", serif;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 44rem; margin: 0 auto; padding: 1.2rem 1rem 4rem; }
+    .meta {
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+    .meta a { color: var(--red); }
+    .sheet {
+      background: var(--sheet);
+      border: 1px solid #1a1916;
+      padding: 1.4rem 1.35rem 1.6rem;
+    }
+    header.exam {
+      text-align: center;
+      border-bottom: 3px double var(--ink);
+      padding-bottom: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    header.exam .school {
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      margin: 0 0 0.35rem;
+    }
+    header.exam h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem;
+      letter-spacing: 0.04em;
+    }
+    header.exam .sub { margin: 0; font-size: 0.92rem; color: var(--muted); }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.2rem;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      margin-top: 0.7rem;
+      text-align: left;
+    }
+    .info span { white-space: nowrap; }
+    .blank-name {
+      display: inline-block;
+      min-width: 6.5rem;
+      border-bottom: 1px solid var(--ink);
+      height: 1.05em;
+    }
+    .prep {
+      font-size: 0.92rem;
+      border: 1px dashed var(--hair);
+      padding: 0.7rem 0.8rem;
+      margin: 0 0 1.1rem;
+    }
+    .prep table { width: 100%; border-collapse: collapse; margin-top: 0.35rem; }
+    .prep td { padding: 0.2rem 0.3rem 0.2rem 0; }
+    .s { color: var(--red); font-weight: 700; }
+    h2.sec {
+      font-size: 1.02rem;
+      margin: 1.15rem 0 0.35rem;
+      font-weight: 700;
+    }
+    .dir { font-size: 0.9rem; color: var(--muted); margin: 0 0 0.7rem; }
+    .q {
+      display: grid;
+      grid-template-columns: 1.6rem 1fr;
+      column-gap: 0.35rem;
+      margin: 0 0 1.05rem;
+      align-items: start;
+    }
+    .no { font-weight: 700; padding-top: 0.12rem; }
+    .stem { margin: 0 0 0.25rem; }
+    .zh { margin: 0 0 0.25rem; font-weight: 600; }
+    .line {
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      padding: 0.35rem 0 0.2rem;
+      color: var(--ink);
+      border-radius: 0;
+      appearance: none;
+    }
+    .line:focus { outline: none; border-bottom-width: 1.5px; }
+    .q.ok .line { border-bottom-color: var(--ok); }
+    .q.bad .line { border-bottom-color: var(--red); }
+    .mark {
+      grid-column: 2;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.88rem;
+      min-height: 0;
+    }
+    .q.ok .mark { color: var(--ok); }
+    .q.bad .mark { color: var(--red); }
+    .actions {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--hair);
+    }
+    button {
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.95rem;
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+    }
+    button.ghost { background: transparent; color: var(--ink); }
+    button:disabled { opacity: 0.4; cursor: default; }
+    a.ghost-btn {
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.95rem;
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-block;
+    }
+    #score {
+      display: none;
+      margin-top: 0.9rem;
+      font-size: 1.05rem;
+    }
+    #score.show { display: block; }
+    #score b.red { color: var(--red); font-size: 1.35rem; }
+    #result {
+      display: none;
+      margin-top: 1rem;
+      border: 1px solid var(--ink);
+      padding: 0.85rem 0.9rem;
+    }
+    #result.show { display: block; }
+    #result h2 {
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+    }
+    #result-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.92rem;
+    }
+    #result-list li {
+      margin: 0.45rem 0;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px dotted var(--hair);
+    }
+    #result-list li:last-child { border-bottom: 0; }
+    #result-list .tick { color: var(--ok); font-weight: 700; }
+    #result-list .cross { color: var(--red); font-weight: 700; }
+    .send {
+      margin-top: 0.85rem;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.9rem;
+    }
+    .send label { display: block; margin-bottom: 0.35rem; }
+    .send input[type="password"] {
+      font: inherit;
+      font-size: 16px;
+      width: 12rem;
+      max-width: 100%;
+      padding: 0.35rem 0.45rem;
+      border: 1px solid var(--ink);
+      background: var(--sheet);
+    }
+    .send-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 0.55rem;
+    }
+    #send-status { margin: 0.45rem 0 0; color: var(--muted); min-height: 1.2em; }
+    #send-status.err { color: var(--red); }
+    #send-status.ok { color: var(--ok); }
+    footer.cite {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    footer.cite a { color: var(--red); }
+    @media print {
+      body { background: #fff; }
+      .meta, .actions, .prep, footer.cite, #result .send { display: none; }
+      .wrap { padding: 0; max-width: none; }
+      .sheet { border: 0; padding: 0; }
+      .line { border-bottom: 1px solid #000; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="meta"><a href="../index.html">返回课题目录</a></p>
+
+    <div class="sheet">
+      <header class="exam">
+        <p class="school">针对性练习 · 一般现在时</p>
+        <h1>练习 0001　第三人称单数</h1>
+        <p class="sub">满分 10 分　建议 12 分钟　闭卷（先看下方提示，开始作答后不要翻对照表）</p>
+        <div class="info">
+          <span>姓名 <i class="blank-name"></i></span>
+          <span>日期 <i class="blank-name"></i></span>
+          <span>得分 <i class="blank-name" id="score-slot"></i></span>
+        </div>
+      </header>
+
+      <div class="prep">
+        <strong>考前提示（作答时请不要再看）</strong>
+        一般现在时用动词原形。主语是 he / she / it、人名、一只动物，加 <span class="s">-s</span>。
+        I / you / we / they 不加。否定用 doesn’t + 原形。go → goes，do → does，have → has。
+        <table>
+          <tr><td>I / they</td><td>work &nbsp; live &nbsp; play</td></tr>
+          <tr><td>he / Mum / Merlin / everyone</td><td>work<span class="s">s</span> &nbsp; live<span class="s">s</span> &nbsp; play<span class="s">s</span></td></tr>
+        </table>
+      </div>
+
+      <h2 class="sec">一、改错（每题 1 分，共 5 分）</h2>
+      <p class="dir">下列句子的动词形式有误。在横线上写出改正后的<strong>完整句子</strong>。</p>
+
+      <div class="q" data-accept="he always sleeps on the sofa" data-show="He always sleeps on the sofa.">
+        <div class="no">1.</div>
+        <div>
+          <p class="stem">He always sleep on the sofa.</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第1题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="when my mum goes to the kitchen|when my mum goes to kitchen|when my mother goes to the kitchen" data-show="When my mum goes to the kitchen.">
+        <div class="no">2.</div>
+        <div>
+          <p class="stem">When my mum go to the kitchen…</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第2题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="merlin always wants to follow me|he always wants to follow me" data-show="Merlin always wants to follow me.">
+        <div class="no">3.</div>
+        <div>
+          <p class="stem">Merlin always want to follow me.</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第3题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="he doesn't know|he does not know" data-show="He doesn't know.">
+        <div class="no">4.</div>
+        <div>
+          <p class="stem">He don't know.</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第4题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="they want to play outside" data-show="They want to play outside.">
+        <div class="no">5.</div>
+        <div>
+          <p class="stem">They wants to play outside.</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第5题">
+          <p class="mark"></p>
+        </div>
+      </div>
+
+      <h2 class="sec">二、中译英（每题 1 分，共 5 分）</h2>
+      <p class="dir">根据中文写出完整的英语句子。没有选项，也没有括号提示。</p>
+
+      <div class="q" data-accept="mary often goes swimming on sundays|mary often goes swimming on sunday|mary usually goes swimming on sundays|mary usually goes swimming on sunday" data-show="Mary often goes swimming on Sundays.">
+        <div class="no">6.</div>
+        <div>
+          <p class="zh">玛丽经常周日去游泳。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第6题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="he always sleeps on the sofa" data-show="He always sleeps on the sofa.">
+        <div class="no">7.</div>
+        <div>
+          <p class="zh">他总是睡在沙发上。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第7题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="i sleep on the sofa|i sleep on a sofa" data-show="I sleep on the sofa.">
+        <div class="no">8.</div>
+        <div>
+          <p class="zh">我睡在沙发上。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第8题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="everyone wants to make friends|everybody wants to make friends" data-show="Everyone wants to make friends.">
+        <div class="no">9.</div>
+        <div>
+          <p class="zh">每个人都想交朋友。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第9题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="he doesn't know|he does not know" data-show="He doesn't know.">
+        <div class="no">10.</div>
+        <div>
+          <p class="zh">他不知道。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第10题">
+          <p class="mark"></p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="submit">交卷</button>
+        <button type="button" class="ghost" id="print">打印</button>
+        <button type="button" class="ghost" id="reset" hidden>再做一遍</button>
+      </div>
+      <div id="score"></div>
+      <div id="result">
+        <h2>结果卡</h2>
+        <ul id="result-list"></ul>
+        <div class="send">
+          <div class="send-row">
+            <button type="button" class="ghost" id="copy-card">复制结果卡</button>
+            <a id="open-issue" class="ghost-btn" hidden href="#" target="_blank" rel="noopener">在 GitHub 开 Issue</a>
+          </div>
+          <label for="pin">口令（发给老师）</label>
+          <input id="pin" type="password" autocomplete="off" maxlength="64">
+          <div class="send-row">
+            <button type="button" id="send">发给老师</button>
+          </div>
+          <p id="send-status"></p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="cite">
+      规则依据
+      <a href="https://learnenglish.britishcouncil.org/grammar/english-grammar-reference/present-simple">British Council Present simple</a>、
+      <a href="https://dictionary.cambridge.org/grammar/british-grammar/present-simple-i-work">Cambridge English Grammar Today</a>。
+      对照表：<a href="../reference/third-person-s.html">第三人称单数</a>。
+    </footer>
+  </div>
+  <script>
+    const LESSON_ID = "0001";
+    const qs = [...document.querySelectorAll(".q")];
+    const cfg = window.LEARN_ENGLISH || { WORKER_URL: "", PRIVATE_REPO: "" };
+    let submission = null;
+
+    function norm(s) {
+      return s
+        .trim()
+        .toLowerCase()
+        .replace(/[’]/g, "'")
+        .replace(/\bdoesnt\b/g, "doesn't")
+        .replace(/\bdont\b/g, "don't")
+        .replace(/[.,!?;:]/g, "")
+        .replace(/\s+/g, " ");
+    }
+
+    function grade() {
+      const items = [];
+      let score = 0;
+      qs.forEach((q, i) => {
+        const answers = q.dataset.accept.split("|").map(norm);
+        const input = q.querySelector(".line");
+        const mark = q.querySelector(".mark");
+        const stemEl = q.querySelector(".stem") || q.querySelector(".zh");
+        const stem = stemEl ? stemEl.textContent.trim() : "";
+        const answer = input.value.trim();
+        const val = norm(input.value);
+        const ok = val !== "" && answers.includes(val);
+        q.classList.remove("ok", "bad");
+        q.classList.add(ok ? "ok" : "bad");
+        input.disabled = true;
+        if (ok) {
+          score += 1;
+          mark.textContent = "√";
+        } else {
+          mark.textContent = val ? "×　" + q.dataset.show : "×　未作答。参考：" + q.dataset.show;
+        }
+        items.push({
+          n: i + 1,
+          stem: stem,
+          answer: answer,
+          ok: ok,
+          model: q.dataset.show,
+        });
+      });
+      return { lessonId: LESSON_ID, score: score, total: qs.length, items: items };
+    }
+
+    function cardText(sub) {
+      const lines = [
+        "交卷 " + sub.lessonId,
+        "得分 " + sub.score + "/" + sub.total,
+        "",
+      ];
+      sub.items.forEach((it) => {
+        lines.push(it.n + ". " + (it.ok ? "√" : "×"));
+        lines.push("题干: " + it.stem);
+        lines.push("作答: " + (it.answer || "（未作答）"));
+        lines.push("范句: " + it.model);
+        lines.push("");
+      });
+      return lines.join("\n");
+    }
+
+    function renderCard(sub) {
+      const list = document.getElementById("result-list");
+      list.innerHTML = "";
+      sub.items.forEach((it) => {
+        const li = document.createElement("li");
+        const flag = document.createElement("span");
+        flag.className = it.ok ? "tick" : "cross";
+        flag.textContent = it.ok ? "√" : "×";
+        li.appendChild(flag);
+        li.appendChild(document.createTextNode(" " + it.n + ". " + it.stem));
+        li.appendChild(document.createElement("br"));
+        li.appendChild(document.createTextNode("作答：" + (it.answer || "（未作答）")));
+        if (!it.ok) {
+          li.appendChild(document.createElement("br"));
+          li.appendChild(document.createTextNode("范句：" + it.model));
+        }
+        list.appendChild(li);
+      });
+    }
+
+    function issueTitle(sub) {
+      return "交卷 " + sub.lessonId + " · " + sub.score + "/" + sub.total;
+    }
+
+    function issueBody(sub) {
+      const lines = [
+        "## 交卷",
+        "",
+        "- 练习: " + sub.lessonId,
+        "- 得分: " + sub.score + "/" + sub.total,
+        "",
+        "### 作答",
+        "",
+      ];
+      sub.items.forEach((it) => {
+        lines.push(it.n + ". " + (it.ok ? "√" : "×"));
+        lines.push("- 题干: " + it.stem);
+        lines.push("- 作答: " + (it.answer || "（未作答）"));
+        lines.push("- 范句: " + it.model);
+        lines.push("");
+      });
+      return lines.join("\n");
+    }
+
+    function setIssueLink(sub) {
+      const a = document.getElementById("open-issue");
+      const repo = (cfg.PRIVATE_REPO || "").trim();
+      if (!repo || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) {
+        a.hidden = true;
+        a.removeAttribute("href");
+        return;
+      }
+      const base = "https://github.com/" + repo + "/issues/new?title=" + encodeURIComponent(issueTitle(sub));
+      const withBody = base + "&body=" + encodeURIComponent(issueBody(sub));
+      a.href = withBody.length <= 7500 ? withBody : base;
+      a.hidden = false;
+    }
+
+    function setStatus(text, kind) {
+      const el = document.getElementById("send-status");
+      el.textContent = text;
+      el.className = kind || "";
+    }
+
+    document.getElementById("print").addEventListener("click", () => window.print());
+
+    document.getElementById("submit").addEventListener("click", () => {
+      submission = grade();
+      const box = document.getElementById("score");
+      box.classList.add("show");
+      box.innerHTML = "得分 <b class=\"red\">" + submission.score + "</b> / " + submission.total + "。";
+      document.getElementById("score-slot").textContent = String(submission.score);
+      renderCard(submission);
+      setIssueLink(submission);
+      document.getElementById("result").classList.add("show");
+      document.getElementById("submit").disabled = true;
+      document.getElementById("reset").hidden = false;
+      document.getElementById("send").disabled = false;
+      setStatus("", "");
+    });
+
+    document.getElementById("copy-card").addEventListener("click", async () => {
+      if (!submission) return;
+      const text = cardText(submission);
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus("结果卡已复制。", "ok");
+      } catch (e) {
+        setStatus("复制失败。请长按结果卡手动复制。", "err");
+      }
+    });
+
+    document.getElementById("send").addEventListener("click", async () => {
+      if (!submission) return;
+      const url = (cfg.WORKER_URL || "").trim().replace(/\/$/, "");
+      const pin = document.getElementById("pin").value;
+      if (!url) {
+        setStatus("发给老师尚未接通。请复制结果卡发给家长。", "err");
+        return;
+      }
+      if (!pin) {
+        setStatus("请先填口令。", "err");
+        return;
+      }
+      const btn = document.getElementById("send");
+      btn.disabled = true;
+      setStatus("正在发给老师…", "");
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pin: pin, submission: submission }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          setStatus("已发给老师。", "ok");
+          return;
+        }
+        if (res.status === 401) {
+          setStatus("口令不对。", "err");
+          btn.disabled = false;
+          return;
+        }
+        setStatus("发给老师失败。请复制结果卡。", "err");
+        btn.disabled = false;
+      } catch (e) {
+        setStatus("发给老师失败。请复制结果卡。", "err");
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      qs.forEach((q) => {
+        const input = q.querySelector(".line");
+        input.disabled = false;
+        input.value = "";
+        q.classList.remove("ok", "bad");
+        q.querySelector(".mark").textContent = "";
+      });
+      submission = null;
+      document.getElementById("score").classList.remove("show");
+      document.getElementById("score").innerHTML = "";
+      document.getElementById("score-slot").textContent = "";
+      document.getElementById("result").classList.remove("show");
+      document.getElementById("result-list").innerHTML = "";
+      document.getElementById("pin").value = "";
+      document.getElementById("submit").disabled = false;
+      document.getElementById("reset").hidden = true;
+      document.getElementById("open-issue").hidden = true;
+      setStatus("", "");
+    });
+  </script>
+</body>
+</html>
