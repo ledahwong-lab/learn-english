@@ -620,11 +620,15 @@
       const btn = document.getElementById("send");
       btn.disabled = true;
       setStatus("正在发给老师…", "");
+      const timeoutMs = Number(cfg.SEND_TIMEOUT_MS) > 0 ? Number(cfg.SEND_TIMEOUT_MS) : 12000;
+      const ac = new AbortController();
+      const timer = setTimeout(() => ac.abort(), timeoutMs);
       try {
         const res = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ pin: pin, submission: submission }),
+          signal: ac.signal,
         });
         const data = await res.json().catch(() => ({}));
         if (res.ok && data.ok) {
@@ -639,8 +643,14 @@
         setStatus("发给老师失败。请复制结果卡。", "err");
         btn.disabled = false;
       } catch (e) {
-        setStatus("发给老师失败。请复制结果卡。", "err");
+        if (e && e.name === "AbortError") {
+          setStatus("发给老师超时。请复制结果卡。", "err");
+        } else {
+          setStatus("发给老师失败。请复制结果卡。", "err");
+        }
         btn.disabled = false;
+      } finally {
+        clearTimeout(timer);
       }
     });
 
