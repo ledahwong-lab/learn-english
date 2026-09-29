@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>练习 0007 · It is + adj. + to do</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <script src="../config.js"></script>
+  <style>
+    :root {
+      --paper: #f7f4ee;
+      --sheet: #fffcf7;
+      --ink: #1a1916;
+      --muted: #5c5852;
+      --line: #1a1916;
+      --hair: #c9c2b6;
+      --red: #b42318;
+      --ok: #3f6212;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--paper); color: var(--ink); }
+    body {
+      font-family: "Source Serif 4", "Noto Serif SC", "Songti SC", "SimSun", serif;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 44rem; margin: 0 auto; padding: 1.2rem 1rem 4rem; }
+    .meta {
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+    .meta a { color: var(--red); }
+    .sheet {
+      background: var(--sheet);
+      border: 1px solid #1a1916;
+      padding: 1.4rem 1.35rem 1.6rem;
+    }
+    header.exam {
+      text-align: center;
+      border-bottom: 3px double var(--ink);
+      padding-bottom: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    header.exam .school {
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      margin: 0 0 0.35rem;
+    }
+    header.exam h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem;
+      letter-spacing: 0.04em;
+    }
+    header.exam .sub { margin: 0; font-size: 0.92rem; color: var(--muted); }
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.2rem;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      margin-top: 0.7rem;
+      text-align: left;
+    }
+    .info span { white-space: nowrap; }
+    .blank-name {
+      display: inline-block;
+      min-width: 6.5rem;
+      border-bottom: 1px solid var(--ink);
+      height: 1.05em;
+    }
+    .prep {
+      font-size: 0.92rem;
+      border: 1px dashed var(--hair);
+      padding: 0.7rem 0.8rem;
+      margin: 0 0 1.1rem;
+    }
+    .prep table { width: 100%; border-collapse: collapse; margin-top: 0.35rem; }
+    .prep td { padding: 0.2rem 0.3rem 0.2rem 0; }
+    .s { color: var(--red); font-weight: 700; }
+    h2.sec {
+      font-size: 1.02rem;
+      margin: 1.15rem 0 0.35rem;
+      font-weight: 700;
+    }
+    .dir { font-size: 0.9rem; color: var(--muted); margin: 0 0 0.7rem; }
+    .q {
+      display: grid;
+      grid-template-columns: 1.6rem 1fr;
+      column-gap: 0.35rem;
+      margin: 0 0 1.05rem;
+      align-items: start;
+    }
+    .no { font-weight: 700; padding-top: 0.12rem; }
+    .stem { margin: 0 0 0.25rem; }
+    .zh { margin: 0 0 0.25rem; font-weight: 600; }
+    .choices {
+      display: grid;
+      gap: 0.2rem;
+      margin: 0.1rem 0 0.15rem;
+    }
+    .choice {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.98rem;
+      padding: 0.38rem 0.35rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      min-height: 2.5rem;
+    }
+    .choice input {
+      margin-top: 0.28rem;
+      flex-shrink: 0;
+    }
+    .q.ok .choice:has(input:checked) { color: var(--ok); }
+    .q.bad .choice:has(input:checked) { color: var(--red); }
+    .line {
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      padding: 0.35rem 0 0.2rem;
+      color: var(--ink);
+      border-radius: 0;
+      appearance: none;
+    }
+    .line:focus { outline: none; border-bottom-width: 1.5px; }
+    .q.ok .line { border-bottom-color: var(--ok); }
+    .q.bad .line { border-bottom-color: var(--red); }
+    .mark {
+      grid-column: 2;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.88rem;
+      min-height: 0;
+    }
+    .q.ok .mark { color: var(--ok); }
+    .q.bad .mark { color: var(--red); }
+    .actions {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--hair);
+    }
+    button {
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.95rem;
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+    }
+    button.ghost { background: transparent; color: var(--ink); }
+    button:disabled { opacity: 0.4; cursor: default; }
+    a.ghost-btn {
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.95rem;
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-block;
+    }
+    #score {
+      display: none;
+      margin-top: 0.9rem;
+      font-size: 1.05rem;
+    }
+    #score.show { display: block; }
+    #score b.red { color: var(--red); font-size: 1.35rem; }
+    #result {
+      display: none;
+      margin-top: 1rem;
+      border: 1px solid var(--ink);
+      padding: 0.85rem 0.9rem;
+    }
+    #result.show { display: block; }
+    #result h2 {
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+    }
+    #result-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.92rem;
+    }
+    #result-list li {
+      margin: 0.45rem 0;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px dotted var(--hair);
+    }
+    #result-list li:last-child { border-bottom: 0; }
+    #result-list .tick { color: var(--ok); font-weight: 700; }
+    #result-list .cross { color: var(--red); font-weight: 700; }
+    .send {
+      margin-top: 0.85rem;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.9rem;
+    }
+    .send label { display: block; margin-bottom: 0.35rem; }
+    .send input[type="password"] {
+      font: inherit;
+      font-size: 16px;
+      width: 12rem;
+      max-width: 100%;
+      padding: 0.35rem 0.45rem;
+      border: 1px solid var(--ink);
+      background: var(--sheet);
+    }
+    .send-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 0.55rem;
+    }
+    #send-status { margin: 0.45rem 0 0; color: var(--muted); min-height: 1.2em; }
+    #send-status.err { color: var(--red); }
+    #send-status.ok { color: var(--ok); }
+    footer.cite {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    footer.cite a { color: var(--red); }
+    @media print {
+      body { background: #fff; }
+      .meta, .actions, .prep, footer.cite, #result .send { display: none; }
+      .wrap { padding: 0; max-width: none; }
+      .sheet { border: 0; padding: 0; }
+      .line { border-bottom: 1px solid #000; }
+      .choice { min-height: 0; padding: 0.15rem 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="meta"><a href="../index.html">返回课题目录</a></p>
+
+    <div class="sheet">
+      <header class="exam">
+        <p class="school">针对性练习 · It is + adj. + to do</p>
+        <h1>练习 0007　It is to do 句型与巩固</h1>
+        <p class="sub">满分 20 分　建议 25 分钟　闭卷（先看下方提示，开始作答后不要翻对照表）</p>
+        <div class="info">
+          <span>姓名 <i class="blank-name"></i></span>
+          <span>日期 <i class="blank-name"></i></span>
+          <span>得分 <i class="blank-name" id="score-slot"></i></span>
+        </div>
+      </header>
+
+      <div class="prep">
+        <strong>考前提示（作答时请不要再看）</strong>
+        主练句型：It is + 形容词 + <span class="s">to do</span>（如 It is important <span class="s">to study</span> English）。这里的 It is <strong>不是天气</strong>，后面要用 <span class="s">to + 动词原形</span>。
+        纠偏巩固：
+        1. 亲属称谓作主语，中文说“妹妹”、“哥哥”，英文要加上物主代词：<span class="s">My sister</span> / <span class="s">My brother</span>，不要写裸词 Sister / Brother。
+        2. 书桌前：sitting <span class="s">at</span> his/her desk 或 sitting <span class="s">in front of</span> the desk，不要写 on the table。
+        3. 动词接 -ing：like / be good at + <span class="s">-ing</span>（如 good at run<span class="s">ning</span> 双写 n）。
+        预热句型（选择题）：<span class="s">go + -ing</span>（如 go swimming, go shopping）。三单主语用 <span class="s">goes</span>。
+        <table>
+          <tr><td>It is + adj. + to do</td><td>It is easy <span class="s">to ride</span> a bike.　It is not easy <span class="s">to learn</span> English.</td></tr>
+          <tr><td>亲属主语（防漏词）</td><td><span class="s">My sister</span> likes...　<span class="s">My brother</span> is good at...</td></tr>
+          <tr><td>书桌前</td><td>sitting <span class="s">at her desk</span> / sitting <span class="s">in front of the desk</span></td></tr>
+          <tr><td>go + -ing（预热）</td><td>usually go<span class="s">es</span> swim<span class="s">ming</span>　often go shop<span class="s">ping</span></td></tr>
+        </table>
+      </div>
+
+      <h2 class="sec">一、选择（每题 1 分，共 10 分）</h2>
+      <p class="dir">从 A、B、C、D 中选出可以填入空白处的<strong>最佳选项</strong>。点选作答。</p>
+
+      <div class="q" data-accept="it is easy to ride a bike|it is easy to ride a bicycle" data-show="It is easy to ride a bike." data-key="B">
+        <div class="no">1.</div>
+        <div>
+          <p class="stem">It is easy ______ a bike.</p>
+          <div class="choices" role="radiogroup" aria-label="第1题选项">
+            <label class="choice"><input type="radio" name="q1" value="A"><span class="opt">A. ride</span></label>
+            <label class="choice"><input type="radio" name="q1" value="B"><span class="opt">B. to ride</span></label>
+            <label class="choice"><input type="radio" name="q1" value="C"><span class="opt">C. riding</span></label>
+            <label class="choice"><input type="radio" name="q1" value="D"><span class="opt">D. rides</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is important to eat breakfast|it is important to eat breakfast every morning" data-show="It is important to eat breakfast." data-key="C">
+        <div class="no">2.</div>
+        <div>
+          <p class="stem">It is important ______ breakfast.</p>
+          <div class="choices" role="radiogroup" aria-label="第2题选项">
+            <label class="choice"><input type="radio" name="q2" value="A"><span class="opt">A. eat</span></label>
+            <label class="choice"><input type="radio" name="q2" value="B"><span class="opt">B. eating</span></label>
+            <label class="choice"><input type="radio" name="q2" value="C"><span class="opt">C. to eat</span></label>
+            <label class="choice"><input type="radio" name="q2" value="D"><span class="opt">D. eats</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is difficult to learn math|it is hard to learn math|it is difficult to learn maths" data-show="It is difficult to learn math." data-key="A">
+        <div class="no">3.</div>
+        <div>
+          <p class="stem">It is difficult ______ math.</p>
+          <div class="choices" role="radiogroup" aria-label="第3题选项">
+            <label class="choice"><input type="radio" name="q3" value="A"><span class="opt">A. to learn</span></label>
+            <label class="choice"><input type="radio" name="q3" value="B"><span class="opt">B. learn</span></label>
+            <label class="choice"><input type="radio" name="q3" value="C"><span class="opt">C. learning</span></label>
+            <label class="choice"><input type="radio" name="q3" value="D"><span class="opt">D. learns</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is fun to play games with friends|it is fun to play games with my friends" data-show="It is fun to play games with friends." data-key="D">
+        <div class="no">4.</div>
+        <div>
+          <p class="stem">It is fun ______ games with friends.</p>
+          <div class="choices" role="radiogroup" aria-label="第4题选项">
+            <label class="choice"><input type="radio" name="q4" value="A"><span class="opt">A. play</span></label>
+            <label class="choice"><input type="radio" name="q4" value="B"><span class="opt">B. playing</span></label>
+            <label class="choice"><input type="radio" name="q4" value="C"><span class="opt">C. plays</span></label>
+            <label class="choice"><input type="radio" name="q4" value="D"><span class="opt">D. to play</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is necessary to drink water every day|it is necessary to drink water" data-show="It is necessary to drink water every day." data-key="B">
+        <div class="no">5.</div>
+        <div>
+          <p class="stem">It is necessary ______ water every day.</p>
+          <div class="choices" role="radiogroup" aria-label="第5题选项">
+            <label class="choice"><input type="radio" name="q5" value="A"><span class="opt">A. drink</span></label>
+            <label class="choice"><input type="radio" name="q5" value="B"><span class="opt">B. to drink</span></label>
+            <label class="choice"><input type="radio" name="q5" value="C"><span class="opt">C. drinking</span></label>
+            <label class="choice"><input type="radio" name="q5" value="D"><span class="opt">D. drinks</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is good to help others|it is good to help other people" data-show="It is good to help others." data-key="A">
+        <div class="no">6.</div>
+        <div>
+          <p class="stem">It is good ______ others.</p>
+          <div class="choices" role="radiogroup" aria-label="第6题选项">
+            <label class="choice"><input type="radio" name="q6" value="A"><span class="opt">A. to help</span></label>
+            <label class="choice"><input type="radio" name="q6" value="B"><span class="opt">B. help</span></label>
+            <label class="choice"><input type="radio" name="q6" value="C"><span class="opt">C. helping</span></label>
+            <label class="choice"><input type="radio" name="q6" value="D"><span class="opt">D. helps</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="i like drawing pictures|i like to draw pictures" data-show="I like drawing pictures." data-key="C">
+        <div class="no">7.</div>
+        <div>
+          <p class="stem">I like ______ pictures in art class.</p>
+          <div class="choices" role="radiogroup" aria-label="第7题选项">
+            <label class="choice"><input type="radio" name="q7" value="A"><span class="opt">A. draw</span></label>
+            <label class="choice"><input type="radio" name="q7" value="B"><span class="opt">B. draws</span></label>
+            <label class="choice"><input type="radio" name="q7" value="C"><span class="opt">C. drawing</span></label>
+            <label class="choice"><input type="radio" name="q7" value="D"><span class="opt">D. to drawing</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="she is good at playing basketball" data-show="She is good at playing basketball." data-key="B">
+        <div class="no">8.</div>
+        <div>
+          <p class="stem">She is good at ______ basketball.</p>
+          <div class="choices" role="radiogroup" aria-label="第8题选项">
+            <label class="choice"><input type="radio" name="q8" value="A"><span class="opt">A. play</span></label>
+            <label class="choice"><input type="radio" name="q8" value="B"><span class="opt">B. playing</span></label>
+            <label class="choice"><input type="radio" name="q8" value="C"><span class="opt">C. plays</span></label>
+            <label class="choice"><input type="radio" name="q8" value="D"><span class="opt">D. to play</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="mary usually goes swimming on saturdays|mary usually goes swimming on saturday" data-show="Mary usually goes swimming on Saturdays." data-key="D">
+        <div class="no">9.</div>
+        <div>
+          <p class="stem">Mary usually ______ swimming on Saturdays.</p>
+          <div class="choices" role="radiogroup" aria-label="第9题选项">
+            <label class="choice"><input type="radio" name="q9" value="A"><span class="opt">A. go</span></label>
+            <label class="choice"><input type="radio" name="q9" value="B"><span class="opt">B. going</span></label>
+            <label class="choice"><input type="radio" name="q9" value="C"><span class="opt">C. to go</span></label>
+            <label class="choice"><input type="radio" name="q9" value="D"><span class="opt">D. goes</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="they often go shopping on sundays|they often go shopping on sunday|they usually go shopping on sundays" data-show="They often go shopping on Sundays." data-key="A">
+        <div class="no">10.</div>
+        <div>
+          <p class="stem">They often ______ shopping on Sundays.</p>
+          <div class="choices" role="radiogroup" aria-label="第10题选项">
+            <label class="choice"><input type="radio" name="q10" value="A"><span class="opt">A. go</span></label>
+            <label class="choice"><input type="radio" name="q10" value="B"><span class="opt">B. goes</span></label>
+            <label class="choice"><input type="radio" name="q10" value="C"><span class="opt">C. going</span></label>
+            <label class="choice"><input type="radio" name="q10" value="D"><span class="opt">D. to go</span></label>
+          </div>
+          <p class="mark"></p>
+        </div>
+      </div>
+
+      <h2 class="sec">二、中译英（每题 1 分，共 10 分）</h2>
+      <p class="dir">根据中文写出完整的英语句子。没有选项，也没有括号提示。</p>
+
+      <div class="q" data-accept="it is important to read english every day|it is important to read english everyday" data-show="It is important to read English every day.">
+        <div class="no">11.</div>
+        <div>
+          <p class="zh">每天读英语很重要。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第11题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is fun to swim|it is great fun to swim|it is very fun to swim" data-show="It is fun to swim.">
+        <div class="no">12.</div>
+        <div>
+          <p class="zh">游泳很有趣。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第12题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is not easy to learn english|it is hard to learn english|it is difficult to learn english" data-show="It is not easy to learn English.">
+        <div class="no">13.</div>
+        <div>
+          <p class="zh">学英语不容易。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第13题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is necessary to wash hands before meals|it is necessary to wash hands before eating" data-show="It is necessary to wash hands before meals.">
+        <div class="no">14.</div>
+        <div>
+          <p class="zh">饭前洗手很有必要。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第14题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is good to go to bed early|it is good to sleep early" data-show="It is good to go to bed early.">
+        <div class="no">15.</div>
+        <div>
+          <p class="zh">早睡是很好的。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第15题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="it is hard to climb the tree|it is difficult to climb the tree" data-show="It is hard to climb the tree.">
+        <div class="no">16.</div>
+        <div>
+          <p class="zh">爬这棵树很难。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第16题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="my sister likes sitting at her desk|my sister likes sitting at the desk|my sister likes sitting in front of the desk|my sister likes sitting in front of her desk" data-show="My sister likes sitting at her desk.">
+        <div class="no">17.</div>
+        <div>
+          <p class="zh">妹妹喜欢坐在书桌前。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第17题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="my brother is good at playing football|my brother is good at playing soccer|he is good at playing football" data-show="My brother is good at playing football.">
+        <div class="no">18.</div>
+        <div>
+          <p class="zh">哥哥擅长踢足球。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第18题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="my brother likes playing basketball|my brother likes to play basketball|he likes playing basketball" data-show="My brother likes playing basketball.">
+        <div class="no">19.</div>
+        <div>
+          <p class="zh">哥哥喜欢打篮球。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第19题">
+          <p class="mark"></p>
+        </div>
+      </div>
+      <div class="q" data-accept="my sister is good at dancing|she is good at dancing" data-show="My sister is good at dancing.">
+        <div class="no">20.</div>
+        <div>
+          <p class="zh">妹妹擅长跳舞。</p>
+          <input class="line" type="text" autocomplete="off" spellcheck="false" aria-label="第20题">
+          <p class="mark"></p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="submit">交卷</button>
+        <button type="button" class="ghost" id="print">打印</button>
+        <button type="button" class="ghost" id="reset" hidden>再做一遍</button>
+      </div>
+      <div id="score"></div>
+      <div id="result">
+        <h2>结果卡</h2>
+        <ul id="result-list"></ul>
+        <div class="send">
+          <div class="send-row">
+            <button type="button" class="ghost" id="copy-card">复制结果卡</button>
+            <a id="open-issue" class="ghost-btn" hidden href="#" target="_blank" rel="noopener">在 GitHub 开 Issue</a>
+          </div>
+          <label for="pin">口令（发给老师）</label>
+          <input id="pin" type="password" autocomplete="off" maxlength="64">
+          <div class="send-row">
+            <button type="button" id="send">发给老师</button>
+          </div>
+          <p id="send-status"></p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="cite">
+      规则依据
+      <a href="https://dictionary.cambridge.org/grammar/british-grammar/it">Cambridge：It is + adj. + to do</a>、
+      <a href="https://dictionary.cambridge.org/grammar/british-grammar/like">Cambridge：like + -ing</a>、
+      <a href="https://learnenglish.britishcouncil.org/grammar/a1-a2-grammar/adjectives-prepositions">British Council：good at + -ing</a>、
+      <a href="https://dictionary.cambridge.org/grammar/british-grammar/go-and-come">Cambridge：go + -ing</a>。
+      对照表：<a href="../reference/practice-order.html">薄弱点顺序</a>。
+    </footer>
+  </div>
+  <script>
+    const LESSON_ID = "0007";
+    const qs = [...document.querySelectorAll(".q")];
+    const cfg = window.LEARN_ENGLISH || { WORKER_URL: "", PRIVATE_REPO: "" };
+    let submission = null;
+
+    const HOUR_WORDS = {
+      one: "1", two: "2", three: "3", four: "4", five: "5", six: "6",
+      seven: "7", eight: "8", nine: "9", ten: "10", eleven: "11", twelve: "12",
+    };
+
+    function foldClock(s) {
+      return String(s)
+        .replace(/(\d)\s*[ap]\.?m\.?/g, "$1")
+        .replace(/\b[ap]\.?m\.?\b/g, "")
+        .replace(/\b(\d{1,2})[:.]00\b/g, "$1")
+        .replace(/\bo'?clock\b/g, "")
+        .replace(
+          /\bat\s+(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b/g,
+          (_, w) => "at " + HOUR_WORDS[w],
+        );
+    }
+
+    function norm(s) {
+      return foldClock(
+        String(s)
+          .trim()
+          .toLowerCase()
+          .replace(/[’]/g, "'")
+          .replace(/\bdoesnt\b/g, "doesn't")
+          .replace(/\bdont\b/g, "don't")
+          .replace(/\beveryday\b/g, "every day"),
+      )
+        .replace(/[.,!?;:]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function choiceText(input) {
+      const opt = input.closest("label") && input.closest("label").querySelector(".opt");
+      return opt ? opt.textContent.trim() : input.value;
+    }
+
+    function grade() {
+      const items = [];
+      let score = 0;
+      qs.forEach((q, i) => {
+        const mark = q.querySelector(".mark");
+        const stemEl = q.querySelector(".stem") || q.querySelector(".zh");
+        const stem = stemEl ? stemEl.textContent.trim() : "";
+        const radios = [...q.querySelectorAll('input[type="radio"]')];
+        const input = q.querySelector(".line");
+        let answer = "";
+        let ok = false;
+
+        if (radios.length) {
+          const checked = radios.find((r) => r.checked);
+          radios.forEach((r) => { r.disabled = true; });
+          if (checked) {
+            answer = choiceText(checked);
+            ok = checked.value === q.dataset.key;
+          }
+        } else {
+          const answers = q.dataset.accept.split("|").map(norm);
+          answer = input.value.trim();
+          const val = norm(input.value);
+          ok = val !== "" && answers.includes(val);
+          input.disabled = true;
+        }
+
+        q.classList.remove("ok", "bad");
+        q.classList.add(ok ? "ok" : "bad");
+        if (ok) {
+          score += 1;
+          mark.textContent = "√";
+        } else {
+          mark.textContent = answer ? "×　" + q.dataset.show : "×　未作答。参考：" + q.dataset.show;
+        }
+        items.push({
+          n: i + 1,
+          stem: stem,
+          answer: answer,
+          ok: ok,
+          model: q.dataset.show,
+        });
+      });
+      return { lessonId: LESSON_ID, score: score, total: qs.length, items: items };
+    }
+
+    function cardText(sub) {
+      const lines = [
+        "交卷 " + sub.lessonId,
+        "得分 " + sub.score + "/" + sub.total,
+        "",
+      ];
+      sub.items.forEach((it) => {
+        lines.push(it.n + ". " + (it.ok ? "√" : "×"));
+        lines.push("题干: " + it.stem);
+        lines.push("作答: " + (it.answer || "（未作答）"));
+        lines.push("范句: " + it.model);
+        lines.push("");
+      });
+      return lines.join("\n");
+    }
+
+    function renderCard(sub) {
+      const list = document.getElementById("result-list");
+      list.innerHTML = "";
+      sub.items.forEach((it) => {
+        const li = document.createElement("li");
+        const flag = document.createElement("span");
+        flag.className = it.ok ? "tick" : "cross";
+        flag.textContent = it.ok ? "√" : "×";
+        li.appendChild(flag);
+        li.appendChild(document.createTextNode(" " + it.n + ". " + it.stem));
+        li.appendChild(document.createElement("br"));
+        li.appendChild(document.createTextNode("作答：" + (it.answer || "（未作答）")));
+        if (!it.ok) {
+          li.appendChild(document.createElement("br"));
+          li.appendChild(document.createTextNode("范句：" + it.model));
+        }
+        list.appendChild(li);
+      });
+    }
+
+    function issueTitle(sub) {
+      return "交卷 " + sub.lessonId + " · " + sub.score + "/" + sub.total;
+    }
+
+    function issueBody(sub) {
+      const lines = [
+        "## 交卷",
+        "",
+        "- 练习: " + sub.lessonId,
+        "- 得分: " + sub.score + "/" + sub.total,
+        "",
+        "### 作答",
+        "",
+      ];
+      sub.items.forEach((it) => {
+        lines.push(it.n + ". " + (it.ok ? "√" : "×"));
+        lines.push("- 题干: " + it.stem);
+        lines.push("- 作答: " + (it.answer || "（未作答）"));
+        lines.push("- 范句: " + it.model);
+        lines.push("");
+      });
+      return lines.join("\n");
+    }
+
+    function setIssueLink(sub) {
+      const a = document.getElementById("open-issue");
+      const repo = (cfg.PRIVATE_REPO || "").trim();
+      if (!repo || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) {
+        a.hidden = true;
+        a.removeAttribute("href");
+        return;
+      }
+      const base = "https://github.com/" + repo + "/issues/new?title=" + encodeURIComponent(issueTitle(sub));
+      const withBody = base + "&body=" + encodeURIComponent(issueBody(sub));
+      a.href = withBody.length <= 7500 ? withBody : base;
+      a.hidden = false;
+    }
+
+    function setStatus(text, kind) {
+      const el = document.getElementById("send-status");
+      el.textContent = text;
+      el.className = kind || "";
+    }
+
+    document.getElementById("print").addEventListener("click", () => window.print());
+
+    document.getElementById("submit").addEventListener("click", () => {
+      submission = grade();
+      const box = document.getElementById("score");
+      box.classList.add("show");
+      box.innerHTML = "得分 <b class=\"red\">" + submission.score + "</b> / " + submission.total + "。";
+      document.getElementById("score-slot").textContent = String(submission.score);
+      renderCard(submission);
+      setIssueLink(submission);
+      document.getElementById("result").classList.add("show");
+      document.getElementById("submit").disabled = true;
+      document.getElementById("reset").hidden = false;
+      document.getElementById("send").disabled = false;
+      setStatus("", "");
+    });
+
+    document.getElementById("copy-card").addEventListener("click", async () => {
+      if (!submission) return;
+      const text = cardText(submission);
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus("结果卡已复制。", "ok");
+      } catch (e) {
+        setStatus("复制失败。请长按结果卡手动复制。", "err");
+      }
+    });
+
+    document.getElementById("send").addEventListener("click", async () => {
+      if (!submission) return;
+      const url = (cfg.WORKER_URL || "").trim().replace(/\/$/, "");
+      const pin = document.getElementById("pin").value;
+      if (!url) {
+        setStatus("发给老师尚未接通。请复制结果卡发给家长。", "err");
+        return;
+      }
+      if (!pin) {
+        setStatus("请先填口令。", "err");
+        return;
+      }
+      const btn = document.getElementById("send");
+      btn.disabled = true;
+      setStatus("正在发给老师…", "");
+      const timeoutMs = Number(cfg.SEND_TIMEOUT_MS) > 0 ? Number(cfg.SEND_TIMEOUT_MS) : 12000;
+      const ac = new AbortController();
+      const timer = setTimeout(() => ac.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pin: pin, submission: submission }),
+          signal: ac.signal,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          setStatus("已发给老师。", "ok");
+          return;
+        }
+        if (res.status === 401) {
+          setStatus("口令不对。", "err");
+          btn.disabled = false;
+          return;
+        }
+        setStatus("发给老师失败。请复制结果卡。", "err");
+        btn.disabled = false;
+      } catch (e) {
+        if (e && e.name === "AbortError") {
+          setStatus("发给老师超时。请复制结果卡。", "err");
+        } else {
+          setStatus("发给老师失败。请复制结果卡。", "err");
+        }
+        btn.disabled = false;
+      } finally {
+        clearTimeout(timer);
+      }
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      qs.forEach((q) => {
+        q.querySelectorAll('input[type="radio"]').forEach((r) => {
+          r.disabled = false;
+          r.checked = false;
+        });
+        const input = q.querySelector(".line");
+        if (input) {
+          input.disabled = false;
+          input.value = "";
+        }
+        q.classList.remove("ok", "bad");
+        q.querySelector(".mark").textContent = "";
+      });
+      submission = null;
+      document.getElementById("score").classList.remove("show");
+      document.getElementById("score").innerHTML = "";
+      document.getElementById("score-slot").textContent = "";
+      document.getElementById("result").classList.remove("show");
+      document.getElementById("result-list").innerHTML = "";
+      document.getElementById("pin").value = "";
+      document.getElementById("submit").disabled = false;
+      document.getElementById("reset").hidden = true;
+      document.getElementById("open-issue").hidden = true;
+      setStatus("", "");
+    });
+  </script>
+</body>
+</html>
