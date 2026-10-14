@@ -6,13 +6,27 @@ on:
 permissions:
   contents: read
   pages: write
+  deployments: write
 jobs:
   cancel:
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel stuck deployment
+      - name: Cancel stuck deployments and delete records
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api -X POST "repos/${{ github.repository }}/pages/deployments/190d979ba72eb15b5fb4a8bd2e4986b4bcf85ada/cancel" || true
-          gh api "repos/${{ github.repository }}/pages/deployments/190d979ba72eb15b5fb4a8bd2e4986b4bcf85ada"
+          set +e
+          for sha in 190d979ba72eb15b5fb4a8bd2e4986b4bcf85ada 462e1de68ee5de3369f994f8237961a613f77ffc; do
+            echo "cancel $sha"
+            gh api -X POST "repos/${{ github.repository }}/pages/deployments/${sha}/cancel"
+            echo "status $sha"
+            gh api "repos/${{ github.repository }}/pages/deployments/${sha}"
+          done
+          gh api "repos/${{ github.repository }}/deployments?per_page=20" \
+            --jq '.[] | select(.environment=="github-pages") | select(.created_at | startswith("2026-10-14")) | .id' \
+            | while read -r id; do
+                echo "delete deployment $id"
+                gh api -X DELETE "repos/${{ github.repository }}/deployments/${id}"
+              done
+          echo "latest build"
+          gh api "repos/${{ github.repository }}/pages/builds/latest"
